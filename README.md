@@ -1,5 +1,4 @@
-# Easy Begun is Half Done: A Curriculum Learning Approach for
-Spatial-temporal Graph Modeling
+# Easy Begun is Half Done: A Curriculum Learning Approach for Spatial-temporal Graph Modeling
 
 ## Descriptions
 Source code of the CIKM'22: Easy Begun is Half Done: A Curriculum Learning Approach for
