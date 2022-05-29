@@ -113,7 +113,7 @@ def trainModel(name, mode, XS, YS, args):
             optimizer.zero_grad()
             p+=1
             pp = curriculum_p(p,retain=args.retain,T=args.T, num_bz=trainval_size/BATCHSIZE)
-            y_pred = model(x, pp=pp, k=args.k, is_drop=args.is_drop)
+            y_pred = model(x, pp=pp, k=args.k, is_drop=args.if_cl)
 #             print(y_pred.shape)
             loss = criterion(y_pred, y)
             loss.backward()
@@ -197,7 +197,7 @@ print('data.shape', data.shape)
     
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--is_drop', type=bool, default=True, help='whether use curriculum')
+    parser.add_argument('--if_cl', type=bool, default=True, help='whether use curriculum')
     parser.add_argument('--retain', type=float, default=0.1, help='the initial retain rate ')
     parser.add_argument('--k', type=float, default=20, help='the number of temporal neighbors ')
     parser.add_argument('--T', type=float, default=34, help='coverage epoch for vanilla model')
