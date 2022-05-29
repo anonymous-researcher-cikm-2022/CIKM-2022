@@ -114,9 +114,9 @@ def temporal_scoring(A,k):
     # values = values.max(dim=2)[0].unsqueeze(-1).repeat(1, 1, A.shape[2])
     # A = A.scatter_(2, indices, values)
     local_rechability_density = 1/ A.permute(0, 2, 1).gather(2, indices).mean(-1)
-    lof = local_rechability_density.unsqueeze(1).repeat(1, A.shape[1], 1).gather(2, indices).mean(
+    temporal_diff = local_rechability_density.unsqueeze(1).repeat(1, A.shape[1], 1).gather(2, indices).mean(
         -1) / local_rechability_density
-    return lof
+    return temporal_diff
 
 class STGCN(nn.Module):
     def __init__(self, ks, kt, bs, T, n, Lk, p):
