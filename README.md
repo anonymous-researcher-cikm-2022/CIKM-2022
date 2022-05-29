@@ -25,8 +25,6 @@ The project structure is organized as follows:
 │   └── METRLA 
 │       ├── metr-la.h5    # signal observation
 │       ├── W_metrla.csv  # adj maxtrix
-├── img
-│   └── framework.png # image of model framework
 ├── models
 │   ├──  STGCN.py # STGCN framework
 │   ├──  Param.py # hyper parameter 
