@@ -126,10 +126,10 @@ class STGCN(nn.Module):
         self.st_conv2 = st_conv_block(ks, kt, n, bs[1], p, Lk)
         self.output = output_layer(bs[1][2], T - 4 * (kt - 1), n)
 
-    def forward(self, x, pp=None,k=None,is_drop=None):
+    def forward(self, x, pp=None,k=None,if_cl=None):
         x_st1 = self.st_conv1(x)
         x_st2 = self.st_conv2(x_st1)
-        if self.training and is_drop:
+        if self.training and if_cl:
             x_st2_vec=x_st2.reshape(-1,x_st2.shape[1]*x_st2.shape[2],x_st2.shape[-1]).permute(0,2,1)
             cosine_dist = cosine_distance_torch(x_st2_vec)
             rec_cosine = temporal_scoring(cosine_dist,k=k)
