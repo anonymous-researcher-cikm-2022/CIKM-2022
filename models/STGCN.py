@@ -143,8 +143,8 @@ class STGCN(nn.Module):
             score[score < score.shape[1] * pp] = -1
             score[score > -1] = 0
             score = score / pp
-            score = score.view(x_st2.shape[0], 1, 1, x_st2.shape[3])  # .repeat(1, data.shape[1], 1, 1)
-            x_st2 = x_st2 * score * -1
+            self.score = score.view(x_st2.shape[0], 1, 1, x_st2.shape[3]) * -1  # .repeat(1, data.shape[1], 1, 1)
+            x_st2 = x_st2 * score
 
             y_pred = self.output(x_st2)
         else:
