@@ -9,7 +9,6 @@ Currently only the partial codes are uploaded. We will update all the codes upon
 * `Python==3.8`
 * `pytorch==1.7.1`
 * `torch-summary (>= 1.4.5)`
-you will get some error if you installed torchsummary, see the details at https://pypi.org/project/torch-summary/. please uninstall torchsummary and run pip install torch-summary to install the new one.
 
 
 #### Running
