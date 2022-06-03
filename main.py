@@ -50,8 +50,13 @@ def getModel(name):
     W = weight_matrix(A)
     L = scaled_laplacian(W)
     Lk = cheb_poly(L, ks)
+    W_ks=[np.eye(len(A)), W]
+    for i in range(2,ks):
+        W_ks.append(np.matmul(W_ks[-1],W))
+    W_ks = np.stack(W_ks)
+    W_ks = torch.tensor(W_ks.astype(np.float32)).to(device)
     Lk = torch.Tensor(Lk.astype(np.float32)).to(device)
-    model = STGCN(ks, kt, bs, T, n, Lk, p).to(device)
+    model = STGCN(ks, kt, bs, T, n, Lk, p, W_ks).to(device)
     return model
 
 def evaluateModel(model, criterion, data_iter):
@@ -198,9 +203,9 @@ print('data.shape', data.shape)
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--if_cl', type=bool, default=True, help='whether use curriculum')
-    parser.add_argument('--retain', type=float, default=0.05, help='the initial retain rate ')
+    parser.add_argument('--retain', type=float, default=0.1, help='the initial retain rate ')
     parser.add_argument('--k', type=float, default=30, help='the number of temporal neighbors ')
-    parser.add_argument('--T', type=float, default=50, help='coverage epoch for vanilla model')
+    parser.add_argument('--T', type=float, default=60, help='coverage epoch for vanilla model')
     args = parser.parse_args()
 
     if not os.path.exists(PATH):

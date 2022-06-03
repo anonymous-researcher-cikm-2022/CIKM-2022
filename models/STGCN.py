@@ -119,9 +119,9 @@ def temporal_scoring(A,k):
     return temporal_diff
 
 class STGCN(nn.Module):
-    def __init__(self, ks, kt, bs, T, n, Lk, p):
+    def __init__(self, ks, kt, bs, T, n, Lk, p, W):
         super(STGCN, self).__init__()
-        self.Lk=Lk
+        self.W=W
         self.st_conv1 = st_conv_block(ks, kt, n, bs[0], p, Lk)
         self.st_conv2 = st_conv_block(ks, kt, n, bs[1], p, Lk)
         self.output = output_layer(bs[1][2], T - 4 * (kt - 1), n)
@@ -134,8 +134,8 @@ class STGCN(nn.Module):
             cosine_dist = cosine_distance_torch(x_st2_vec)
             rec_cosine = temporal_scoring(cosine_dist,k=k)
             spatial_diff=0
-            for i  in range(len(self.Lk)):
-                spatial_diff+=(cosine_dist*self.Lk[i:i+1]).sum(dim=2)/self.Lk[i:i+1].sum(dim=2)
+            for i  in range(len(self.W)):
+                spatial_diff+=(cosine_dist*self.W[i:i+1]).sum(dim=2)/self.W[i:i+1].sum(dim=2)
             nomalized_temporal_diff = (rec_cosine - rec_cosine.mean()) / torch.sqrt(rec_cosine.var())
             nomalized_spatial_diff = (spatial_diff - spatial_diff.mean()) / torch.sqrt(spatial_diff.var())
             nomalized_diff = nomalized_temporal_diff+nomalized_spatial_diff
