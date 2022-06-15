@@ -118,7 +118,7 @@ def trainModel(name, mode, XS, YS, args):
             optimizer.zero_grad()
             p+=1
             pp = curriculum_p(p,retain=args.retain,T=args.T, num_bz=trainval_size/BATCHSIZE)
-            y_pred = model(x, pp=pp, k=args.k, is_drop=args.if_cl)
+            y_pred = model(x, pp=pp, k=args.k, if_cl=args.if_cl)
 #             print(y_pred.shape)
             loss = criterion(y_pred * model.score, y * model.score)
             loss.backward()
